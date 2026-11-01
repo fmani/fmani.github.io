@@ -1,0 +1,10 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.fmani.bookflow",
+    "sha256_cert_fingerprints": [
+      "97:7E:0B:4F:92:99:2F:0E:DA:DD:5D:DD:54:F1:76:DB:CF:56:37:E1:14:C7:82:CD:27:6A:27:47:8B:94:2F:F4"
+    ]
+  }
+}]

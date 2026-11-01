@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bookflow — eBay sign-in</title>
+<style>
+  body { font-family: -apple-system, Roboto, "Segoe UI", sans-serif; margin: 0;
+         min-height: 100vh; display: flex; align-items: center; justify-content: center;
+         background: #f6f3ee; color: #2d2a26; }
+  .card { text-align: center; padding: 2.5rem 2rem; max-width: 22rem; }
+  h1 { font-size: 1.4rem; margin: 0 0 .5rem; }
+  p { line-height: 1.5; color: #6b6257; margin: 0 0 1.5rem; }
+  a.button { display: inline-block; padding: .8rem 2rem; border-radius: 9999px;
+             background: #366a4e; color: #fff; text-decoration: none; font-weight: 600; }
+  small { display: block; margin-top: 1.5rem; color: #a39a8d; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Almost there</h1>
+  <p id="msg">Tap the button below to finish signing in to Bookflow.</p>
+  <a id="open" class="button" href="bookflow://auth/ebay">Open Bookflow</a>
+  <small>If nothing happens, make sure Bookflow is installed on this device.</small>
+</div>
+<script>
+  // Carry eBay's query (code/state or error) into the app's deep link.
+  var q = window.location.search;
+  if (q) document.getElementById('open').href = 'bookflow://auth/ebay' + q;
+  if (new URLSearchParams(q).get('error')) {
+    document.getElementById('msg').textContent =
+      'eBay reported an issue with the sign-in. You can close this page and try again in Bookflow.';
+  }
+</script>
+</body>
+</html>
