@@ -8,12 +8,17 @@
   body { font-family: -apple-system, Roboto, "Segoe UI", sans-serif; margin: 0;
          min-height: 100vh; display: flex; align-items: center; justify-content: center;
          background: #f6f3ee; color: #2d2a26; }
-  .card { text-align: center; padding: 2.5rem 2rem; max-width: 22rem; }
+  .card { text-align: center; padding: 2.5rem 2rem; max-width: 26rem; }
   h1 { font-size: 1.4rem; margin: 0 0 .5rem; }
   p { line-height: 1.5; color: #6b6257; margin: 0 0 1.5rem; }
   a.button { display: inline-block; padding: .8rem 2rem; border-radius: 9999px;
              background: #366a4e; color: #fff; text-decoration: none; font-weight: 600; }
   small { display: block; margin-top: 1.5rem; color: #a39a8d; }
+  #code { width: 100%; box-sizing: border-box; margin-top: 1rem; padding: .5rem;
+          font-family: monospace; font-size: .8rem; border: 1px solid #d8d1c4;
+          border-radius: 6px; word-break: break-all; }
+  #copy { margin-top: .5rem; background: none; border: 1px solid #366a4e; color: #366a4e;
+          border-radius: 9999px; padding: .4rem 1.2rem; font-weight: 600; cursor: pointer; }
 </style>
 </head>
 <body>
@@ -21,6 +26,11 @@
   <h1>Almost there</h1>
   <p id="msg">Tap the button below to finish signing in to Bookflow.</p>
   <a id="open" class="button" href="bookflow://auth/ebay">Open Bookflow</a>
+  <div id="devblock" style="display:none">
+    <p>Sign-in complete. Copy the code below and paste it in your terminal.</p>
+    <textarea id="code" rows="4" readonly></textarea>
+    <button id="copy" onclick="navigator.clipboard.writeText(document.getElementById('code').value);this.textContent='Copied!'">Copy code</button>
+  </div>
   <small>If nothing happens, make sure Bookflow is installed on this device.</small>
 </div>
 <script>
@@ -28,8 +38,14 @@
   var q = window.location.search;
   if (q) document.getElementById('open').href = 'bookflow://auth/ebay' + q;
   if (new URLSearchParams(q).get('error')) {
-    document.getElementById('msg').textContent =
-      'eBay reported an issue with the sign-in. You can close this page and try again in Bookflow.';
+    document.getElementById('msg').textContent = 'Sign-in failed: ' + new URLSearchParams(q).get('error');
+    document.getElementById('open').style.display = 'none';
+  }
+  // Debug helper: show the raw code for curl-based testing.
+  var code = new URLSearchParams(q).get('code');
+  if (code) {
+    document.getElementById('devblock').style.display = 'block';
+    document.getElementById('code').value = window.location.href;
   }
 </script>
 </body>
